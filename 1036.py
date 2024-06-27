@@ -15,18 +15,26 @@
 # 1
 
 
-def reverse_array(input_str):
-    numbers = []
+def reverse_array(numbers):
+    # 方法一
+    # reversed_numbers = numbers[::-1]
 
-    for _ in range(input_str):
-        number = int(input(""))
-        numbers.append(number)
+    # 方法二
+    reversed_numbers = []
+    for i in range(len(numbers) - 1, -1, -1):
+        reversed_numbers.append(numbers[i])
 
-    reversed_numbers = numbers[::-1]
-
-    for number in reversed_numbers:
-        print(number)
+    return reversed_numbers
 
 
 input_str = int(input(""))
-reverse_array(input_str)
+
+numbers = []
+for _ in range(input_str):
+    number = int(input(""))
+    numbers.append(number)
+
+result = reverse_array(numbers)
+# print(result)
+for number in result:
+    print(number)
