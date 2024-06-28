@@ -25,3 +25,9 @@ javascript
 ```
 cat input.in | node 1036.js | diff result.in -
 ```
+
+When you are developing or collaborating across different platforms, you don't need to worry about the differences in line endings between systems; you only need to focus on the actual content of the text.
+
+```
+cat input.in | node 1036.js | diff result.in --strip-trailing-cr
+```
