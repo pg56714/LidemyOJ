@@ -39,44 +39,71 @@
 # Sample Output 1
 # 9
 
+# def bfs(maze, width, height):
+#     # # 定義四個可能的移動方向
+#     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
-def bfs(maze, width, height):
-    # # 定義四個可能的移動方向
-    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+#     # 初始化 BFS 隊列
+#     queue = [(0, 0, 0)]  # (col, row, steps)，從0開始計數
+#     visited = {(0, 0)}
 
-    # 初始化 BFS 隊列
-    queue = [(0, 0, 0)]  # (col, row, steps)，從0開始計數
-    visited = {(0, 0)}
+#     while queue:
+#         col, row, steps = queue.pop(0)
 
-    while queue:
-        col, row, steps = queue.pop(0)
+#         # 如果到達終點，返回步數
+#         if row == height - 1 and col == width - 1:
+#             return steps
 
-        # 如果到達終點，返回步數
-        if row == height - 1 and col == width - 1:
-            return steps
+#         # 檢查四個方向
+#         for dx, dy in directions:
+#             new_row, new_col = row + dx, col + dy
 
-        # 檢查四個方向
+#             if (
+#                 0 <= new_row < height
+#                 and 0 <= new_col < width
+#                 and (new_col, new_row) not in visited
+#                 and maze[new_row][new_col] == "."
+#             ):
+#                 # print(new_row)
+#                 visited.add((new_col, new_row))
+#                 queue.append((new_col, new_row, steps + 1))
+#                 # print(visited)
+#                 # print(queue)
+
+#     return -1  # 若無法到達終點，返回 -1（不會發生）
+
+
+def simulate_path(maze, width, height):
+    # 定義四個可能的移動方向
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # 上下左右
+
+    x, y = 0, 0  # 起始位置
+    steps = 0  # 計步器
+    visited = set()  # 記錄訪問過的點，避免回頭
+    visited.add((x, y))
+
+    while (x, y) != (width - 1, height - 1):  # 直到到達終點
         for dx, dy in directions:
-            new_row, new_col = row + dx, col + dy
-
+            nx, ny = x + dx, y + dy
             if (
-                0 <= new_row < height
-                and 0 <= new_col < width
-                and (new_col, new_row) not in visited
-                and maze[new_row][new_col] == "."
+                0 <= nx < width
+                and 0 <= ny < height
+                and maze[ny][nx] == "."
+                and (nx, ny) not in visited
             ):
-                # print(new_row)
-                visited.add((new_col, new_row))
-                queue.append((new_col, new_row, steps + 1))
-                # print(visited)
-                # print(queue)
+                visited.add((nx, ny))  # 標記為已訪問
+                x, y = nx, ny  # 移動到新位置
+                steps += 1
+                # print(x, y, steps)
+                break  # 找到唯一可行路徑，直接跳出循環
 
-    return -1  # 若無法到達終點，返回 -1（不會發生）
+    return steps
 
 
 width, height = map(int, input().split())
 maze = [input().strip() for _ in range(height)]
 # print(maze)
 
-result = bfs(maze, width, height)
+result = simulate_path(maze, width, height)
+# result = bfs(maze, width, height)
 print(result)
