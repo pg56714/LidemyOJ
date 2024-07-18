@@ -40,39 +40,43 @@
 # 9
 
 
-def bfs(maze, w, h):
+def bfs(maze, width, height):
     # # 定義四個可能的移動方向
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
     # 初始化 BFS 隊列
-    queue = [(0, 0, 1)]  # (x, y, steps)，從0開始計數
+    queue = [(0, 0, 0)]  # (col, row, steps)，從0開始計數
     visited = {(0, 0)}
 
     while queue:
-        x, y, steps = queue.pop(0)
+        col, row, steps = queue.pop(0)
 
-        # 如果到達終點，返回步數並減一
-        if x == h - 1 and y == w - 1:
-            return steps - 1
+        # 如果到達終點，返回步數
+        if row == height - 1 and col == width - 1:
+            return steps
 
         # 檢查四個方向
         for dx, dy in directions:
-            nx, ny = x + dx, y + dy
+            new_row, new_col = row + dx, col + dy
+
             if (
-                0 <= nx < h
-                and 0 <= ny < w
-                and (nx, ny) not in visited
-                and maze[nx][ny] == "."
+                0 <= new_row < height
+                and 0 <= new_col < width
+                and (new_col, new_row) not in visited
+                and maze[new_row][new_col] == "."
             ):
-                visited.add((nx, ny))
-                queue.append((nx, ny, steps + 1))
+                # print(new_row)
+                visited.add((new_col, new_row))
+                queue.append((new_col, new_row, steps + 1))
+                # print(visited)
+                # print(queue)
 
-    return -1  # 若無法到達終點，返回 -1（理論上不會發生）
+    return -1  # 若無法到達終點，返回 -1（不會發生）
 
 
-w, h = map(int, input().split())
-maze = [input().strip() for _ in range(h)]
+width, height = map(int, input().split())
+maze = [input().strip() for _ in range(height)]
 # print(maze)
 
-result = bfs(maze, w, h)
+result = bfs(maze, width, height)
 print(result)
